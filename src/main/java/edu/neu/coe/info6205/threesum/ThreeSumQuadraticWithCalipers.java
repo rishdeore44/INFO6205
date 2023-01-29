@@ -1,6 +1,7 @@
 package edu.neu.coe.info6205.threesum;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -14,45 +15,78 @@ import java.util.function.Function;
  * The array provided in the constructor MUST be ordered.
  */
 public class ThreeSumQuadraticWithCalipers implements ThreeSum {
-    /**
-     * Construct a ThreeSumQuadratic on a.
-     *
-     * @param a a sorted array.
-     */
-    public ThreeSumQuadraticWithCalipers(int[] a) {
-        this.a = a;
-        length = a.length;
-    }
+	/**
+	 * Construct a ThreeSumQuadratic on a.
+	 *
+	 * @param a a sorted array.
+	 */
+	public ThreeSumQuadraticWithCalipers(int[] a) {
+		this.a = a;
+		length = a.length;
+	}
 
-    /**
-     * Get an array or Triple containing all of those triples for which sum is zero.
-     *
-     * @return a Triple[].
-     */
-    public Triple[] getTriples() {
-        List<Triple> triples = new ArrayList<>();
-        Collections.sort(triples); // ???
-        for (int i = 0; i < length - 2; i++)
-            triples.addAll(calipers(a, i, Triple::sum));
-        return triples.stream().distinct().toArray(Triple[]::new);
-    }
+	/**
+	 * Get an array or Triple containing all of those triples for which sum is zero.
+	 *
+	 * @return a Triple[].
+	 */
+	public Triple[] getTriples() {
+		List<Triple> triples = new ArrayList<>();
+		Collections.sort(triples); // ???
+		for (int i = 0; i < length - 2; i++)
+			triples.addAll(calipers(a, i, Triple::sum));
+		return triples.stream().distinct().toArray(Triple[]::new);
+	}
 
-    /**
-     * Get a set of candidate Triples such that the first index is the given value i.
-     * Any candidate triple is added to the result if it yields zero when passed into function.
-     *
-     * @param a        a sorted array of ints.
-     * @param i        the index of the first element of resulting triples.
-     * @param function a function which takes a triple and returns a value which will be compared with zero.
-     * @return a List of Triples.
-     */
-    public static List<Triple> calipers(int[] a, int i, Function<Triple, Integer> function) {
-        List<Triple> triples = new ArrayList<>();
-        // FIXME : use function to qualify triples and to navigate otherwise.
-        // END 
-        return triples;
-    }
+	/**
+	 * Get a set of candidate Triples such that the first index is the given value i.
+	 * Any candidate triple is added to the result if it yields zero when passed into function.
+	 *
+	 * @param a        a sorted array of ints.
+	 * @param i        the index of the first element of resulting triples.
+	 * @param function a function which takes a triple and returns a value which will be compared with zero.
+	 * @return a List of Triples.
+	 */
+	public static List<Triple> calipers(int[] a, int i, Function<Triple, Integer> function) {
+		List<Triple> triples = new ArrayList<>();
+		// FIXME : use function to qualify triples and to navigate otherwise.
 
-    private final int[] a;
-    private final int length;
+		int j=0;
+		int k=0;
+
+
+		j=i+1;
+		k=a.length-1;
+
+		while(k>=0 && j<k) {
+			if(a[i]+a[j]+a[k]==0) {
+				triples.add(new Triple(a[i],a[j],a[k]));
+				k--;
+			}
+			else if(a[i]+a[j]+a[k]<0) {
+				j++;
+			}
+			else {
+				k--;
+			}
+		}
+
+		// END  
+		//System.out.println("My triplets are " +triples );
+		return triples;
+	}
+
+	public static void main(String []args) {
+
+		int[] array= {-1,0,1,2,-1,-4};
+		Arrays.sort(array);
+		ThreeSumQuadraticWithCalipers threeSumQuadraticWithCalipers=new ThreeSumQuadraticWithCalipers(array);
+		threeSumQuadraticWithCalipers.getTriples();
+
+	}
+
+
+
+	private final int[] a;
+	private final int length;
 }

@@ -1,6 +1,7 @@
 package edu.neu.coe.info6205.threesum;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,35 +14,68 @@ import java.util.List;
  * NOTE: The array provided in the constructor MUST be ordered.
  */
 public class ThreeSumQuadratic implements ThreeSum {
-    /**
-     * Construct a ThreeSumQuadratic on a.
-     * @param a a sorted array.
-     */
-    public ThreeSumQuadratic(int[] a) {
-        this.a = a;
-        length = a.length;
-    }
+	/**
+	 * Construct a ThreeSumQuadratic on a.
+	 * @param a a sorted array.
+	 */
+	private final int[] a;
+	private final int length;
 
-    public Triple[] getTriples() {
-        List<Triple> triples = new ArrayList<>();
-        for (int i = 0; i < length; i++) triples.addAll(getTriples(i));
-        Collections.sort(triples);
-        return triples.stream().distinct().toArray(Triple[]::new);
-    }
+	public ThreeSumQuadratic(int[] a) {
+		this.a = a;
+		length = a.length;
+	}
 
-    /**
-     * Get a list of Triples such that the middle index is the given value j.
-     *
-     * @param j the index of the middle value.
-     * @return a Triple such that
-     */
-    public List<Triple> getTriples(int j) {
-        List<Triple> triples = new ArrayList<>();
-        // FIXME : for each candidate, test if a[i] + a[j] + a[k] = 0.
-        // END 
-        return triples;
-    }
+	public Triple[] getTriples() {
+		List<Triple> triples = new ArrayList<>();
+		for (int i = 0; i < length; i++) triples.addAll(getTriples(i));
+		Collections.sort(triples);
+		return triples.stream().distinct().toArray(Triple[]::new);
+	}
 
-    private final int[] a;
-    private final int length;
+	/**
+	 * Get a list of Triples such that the middle index is the given value j.
+	 *
+	 * @param j the index of the middle value.
+	 * @return a Triple such that
+	 */
+	public List<Triple> getTriples(int j) {
+		List<Triple> triples = new ArrayList<>();
+		// FIXME : for each candidate, test if a[i] + a[j] + a[k] = 0.
+		int i=0;
+		int k=0;
+		//boolean repeatFlag=false;
+		i=j-1;
+		k=j+1;
+		while(i>=0 && k<=(length-1)) {
+
+			if(a[i]+a[j]+a[k]==0) {
+				triples.add(new Triple(a[i],a[j],a[k]));
+				i--;
+			}
+
+			else if(a[i]+a[k]<-a[j]) {
+				k++;
+			}
+			else {
+				i--;
+			}
+
+		}
+		// END 
+		//System.out.println("my triples are " + triples);
+		return triples;
+	}
+
+	public static void main(String[] args) {
+		//-2, 0, 2
+		//30, -40, -20, -10, 40, 0, 10, 5
+		//30, -40, -20, -10, 40, 0, 10, 5
+		int[] array= {-1,0,1,2,-1,-4};
+		Arrays.sort(array);
+		ThreeSumQuadratic threeSumQuadratic=new ThreeSumQuadratic(array);
+		threeSumQuadratic.getTriples();
+	}
+
+
 }

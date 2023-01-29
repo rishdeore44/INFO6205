@@ -1,12 +1,10 @@
 package edu.neu.coe.info6205.threesum;
 
-import edu.neu.coe.info6205.util.Benchmark_Timer;
-import edu.neu.coe.info6205.util.TimeLogger;
-import edu.neu.coe.info6205.util.Utilities;
-
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+
+import edu.neu.coe.info6205.util.TimeLogger;
+import edu.neu.coe.info6205.util.Utilities;
 
 public class ThreeSumBenchmark {
     public ThreeSumBenchmark(int runs, int n, int m) {
@@ -35,6 +33,16 @@ public class ThreeSumBenchmark {
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
         // FIXME
+        double timeNow = System.currentTimeMillis();
+        for(int i=0;i<runs;i++) {
+        	function.accept(supplier.get());
+        	
+        }
+        double timeEnd = System.currentTimeMillis();
+        
+        //System.out.println("Average time is " + (timeEnd-timeNow)/runs);
+        timeLoggers[0].log((timeEnd-timeNow)/runs, n);
+        timeLoggers[1].log((timeEnd-timeNow)/runs, n);	
         // END 
     }
 
